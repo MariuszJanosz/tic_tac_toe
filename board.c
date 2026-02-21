@@ -20,3 +20,11 @@ void draw_board(Board_t* board) {
 								cell_state_to_char(board->board[i][2]));
 	}
 }
+
+void init_board(Board_t* board) {
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			board->board[i][j] = EMPTY;
+		}
+	}
+}
