@@ -1,15 +1,19 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #include "board.h"
 #include "players.h"
 #include "human_player.h"
+#include "ai_player.h"
 
 int main(int argc, char** argv) {
+	srand(time(NULL));
 	Board_t board;
 	init_board(&board);
 	Player_t players[2];
 	init_player(&players[0], "Player 1", human_get_move);
-	init_player(&players[1], "Player 2", human_get_move);
+	init_player(&players[1], "Player 2", perfect_ai_get_move);
 	int player = 0;
 	int rnd = 9;
 	while (rnd) {
