@@ -14,11 +14,13 @@ char cell_state_to_char(Cell_state_t state) {
 }
 
 void draw_board(Board_t* board) {
+	printf("#####\n");
 	for (int i = 0; i < 3; ++i) {
-		printf("%c %c %c\n\n",	cell_state_to_char(board->board[i][0]),
+		printf("#%c%c%c#\n",	cell_state_to_char(board->board[i][0]),
 								cell_state_to_char(board->board[i][1]),
 								cell_state_to_char(board->board[i][2]));
 	}
+	printf("#####\n");
 }
 
 void init_board(Board_t* board) {

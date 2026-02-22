@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
 	int player = 0;
 	int rnd = 9;
 	while (rnd) {
+		printf("Turn of %s\n", players[player].name);
 		int move = players[player].get_move(&board);
 		board.board[(move - 1) / 3][(move - 1) % 3] = player == 0 ? X_ : O_;
 		draw_board(&board);
