@@ -13,5 +13,6 @@ typedef struct Board_t {
 
 void init_board(Board_t* board);
 void draw_board(Board_t* board);
+int solved(Board_t* board);
 
 #endif //BOARD_H

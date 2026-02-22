@@ -28,3 +28,31 @@ void init_board(Board_t* board) {
 		}
 	}
 }
+
+int solved(Board_t* board) {
+	if (board->board[0][0] != EMPTY && board->board[0][0] == board->board[0][1] && board->board[0][0] == board->board[0][2]) {
+		return 1; //1st row
+	}
+	if (board->board[1][0] != EMPTY && board->board[1][0] == board->board[1][1] && board->board[1][0] == board->board[1][2]) {
+		return 1; //2nd row
+	}
+	if (board->board[2][0] != EMPTY && board->board[2][0] == board->board[2][1] && board->board[2][0] == board->board[2][2]) {
+		return 1; //3rd row
+	}
+	if (board->board[0][0] != EMPTY && board->board[0][0] == board->board[1][0] && board->board[0][0] == board->board[2][0]) {
+		return 1; //1st col
+	}
+	if (board->board[0][1] != EMPTY && board->board[0][1] == board->board[1][1] && board->board[0][1] == board->board[2][1]) {
+		return 1; //2nd col
+	}
+	if (board->board[0][2] != EMPTY && board->board[0][2] == board->board[1][2] && board->board[0][2] == board->board[2][2]) {
+		return 1; //3rd col
+	}
+	if (board->board[0][0] != EMPTY && board->board[0][0] == board->board[1][1] && board->board[0][0] == board->board[2][2]) {
+		return 1; //main diag
+	}
+	if (board->board[2][0] != EMPTY && board->board[2][0] == board->board[1][1] && board->board[2][0] == board->board[0][2]) {
+		return 1; //anti diag
+	}
+	return 0; //no winning line
+}
