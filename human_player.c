@@ -2,7 +2,6 @@
 
 #include "human_player.h"
 #include "board.h"
-#include "players.h"
 
 int human_get_move(Board_t* board) {
 	int move;
@@ -19,6 +18,7 @@ int human_get_move(Board_t* board) {
 			printf("Invalid move! Try again.\n");
 			continue;
 		}
+		while (getchar() != '\n');
 		return move;
 	}
 }
