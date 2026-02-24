@@ -43,6 +43,7 @@ void init_game(Board_t* board, Player_t* players) {
 int main(int argc, char** argv) {
 	Board_t board;
 	Player_t players[2];
+start:
 	init_game(&board, players);
 	
 	int player = 0;
@@ -59,10 +60,14 @@ int main(int argc, char** argv) {
 		--rnd;
 	}
 	if (rnd) {
-		printf("%s won!", players[player].name);
+		printf("%s won!\n", players[player].name);
 	}
 	else {
-		printf("It's a tie!");
+		printf("It's a tie!\n");
+	}
+	Option_t option = play_again();
+	if (option == PLAY_AGAIN) {
+		goto start;
 	}
 	return 0;
 }

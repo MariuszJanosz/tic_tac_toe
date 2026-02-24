@@ -5,6 +5,27 @@
 #include "menu.h"
 #include "input.h"
 
+Option_t play_again() {
+	const char* msg = "1. Play again\n"
+		"2. Quit\n"
+		"Select option: ";
+	const char* invalid_input_msg = "Invalid option! Try again.\n";
+	while (1) {
+		int opt = get_num(msg, invalid_input_msg);
+		if (opt < 1 || opt > 2) {
+			printf("%s", invalid_input_msg);
+			continue;
+		}
+		switch (opt) {
+		case 1:
+			return PLAY_AGAIN;
+		case 2:
+			return QUIT;
+		}
+	}
+	assert(0);
+}
+
 Option_t start_menu() {
 	const char *msg =	"1. Two players\n"
 						"2. Vs AI\n"
