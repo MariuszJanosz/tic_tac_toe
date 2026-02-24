@@ -1,1 +1,3 @@
-##Tic Tac Toe
+## Tic Tac Toe
+
+Simple Tic Tac Toe implementation.
