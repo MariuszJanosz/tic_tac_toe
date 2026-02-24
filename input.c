@@ -3,7 +3,7 @@
 
 #include "input.h"
 
-int get_num(char* msg, char* invalid_input_msg) {
+int get_num(const char* msg, const char* invalid_input_msg) {
 	int num;
 	while (1) {
 		printf("%s", msg);
