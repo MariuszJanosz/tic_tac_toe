@@ -9,6 +9,7 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									players.c players.h
 									human_player.c human_player.h
 									ai_player.c ai_player.h
-									menu.c menu.h)
+									menu.c menu.h
+									input.c input.h)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
