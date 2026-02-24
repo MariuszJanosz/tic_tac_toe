@@ -9,6 +9,7 @@
 #include "menu.h"
 
 void init_game(Board_t* board, Player_t* players) {
+	srand(time(NULL));
 	init_board(board);
 	Option_t option = start_menu();
 	switch (option) {
@@ -40,7 +41,6 @@ void init_game(Board_t* board, Player_t* players) {
 }
 
 int main(int argc, char** argv) {
-	srand(time(NULL));
 	Board_t board;
 	Player_t players[2];
 	init_game(&board, players);
