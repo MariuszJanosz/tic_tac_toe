@@ -12,7 +12,7 @@ int human_get_move(Board_t* board) {
 		int move = get_num(msg, invalid_input_msg);
 		if (move < 1 || move > 9 ||
 			board->board[(move - 1) / 3][(move - 1) % 3] != EMPTY) {
-			printf(invalid_input_msg);
+			printf("%s", invalid_input_msg);
 			continue;
 		}
 		return move;

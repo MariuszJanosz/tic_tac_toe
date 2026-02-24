@@ -14,7 +14,7 @@ Option_t start_menu() {
 	while(1) {
 		int opt = get_num(msg, invalid_input_msg);
 		if (opt < 1 || opt > 3) {
-			printf(invalid_input_msg);
+			printf("%s", invalid_input_msg);
 			continue;
 		}
 		switch (opt) {
@@ -38,7 +38,7 @@ Option_t select_ai_difficulty() {
 	while (1) {
 		int opt = get_num(msg, invalid_input_msg);
 		if (opt < 1 || opt > 3) {
-			printf(invalid_input_msg);
+			printf("%s", invalid_input_msg);
 			continue;
 		}
 		switch (opt) {
