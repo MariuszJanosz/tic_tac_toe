@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "board.h"
 #include "players.h"
 #include "human_player.h"
 #include "ai_player.h"
 #include "menu.h"
+#include "input.h"
 
 void init_game(Board_t* board, Player_t* players) {
 	srand(time(NULL));
@@ -17,22 +19,73 @@ void init_game(Board_t* board, Player_t* players) {
 		exit(0);
 		break;
 	case TWO_PLAYERS:
-		init_player(&players[0], "Player 1", human_get_move);
-		init_player(&players[1], "Player 2", human_get_move);
+	{
+#define _MSG_(x, y, z) x #y z
+#define MSG(x, y, z) _MSG_(x, y, z)
+		const char* msg = MSG("Enter your name (max ", MAX_NAME_LEN, " characters): ");
+#undef MSG
+#undef _MSG_
+		const char* invalid_input_msg = "Invalid input! Try again.\n";
+		printf("Player 1\n");
+		char* name = NULL;
+		while (1) {
+			name = get_string(msg, invalid_input_msg);
+			if (strlen(name) > MAX_NAME_LEN) {
+				printf("Invalid input, name to long! Try again.\n");
+				free(name);
+				continue;
+			}
+			break;
+		}
+		init_player(&players[0], name, human_get_move);
+		free(name);
+		printf("Player 2\n");
+		while (1) {
+			name = get_string(msg, invalid_input_msg);
+			if (strlen(name) > MAX_NAME_LEN) {
+				printf("Invalid input, name to long! Try again.\n");
+				free(name);
+				continue;
+			}
+			break;
+		}
+		init_player(&players[1], name, human_get_move);
+		free(name);
 		break;
+	}
 	case PLAYER_VS_AI:
-		init_player(&players[0], "Player 1", human_get_move);
+	{
+#define _MSG_(x, y, z) x #y z
+#define MSG(x, y, z) _MSG_(x, y, z)
+		const char* msg = MSG("Enter your name (max ", MAX_NAME_LEN, " characters): ");
+#undef MSG
+#undef _MSG_
+		const char* invalid_input_msg = "Invalid input! Try again.\n";
+		printf("Player 1\n");
+		char* name = NULL;
+		while (1) {
+			name = get_string(msg, invalid_input_msg);
+			if (strlen(name) > MAX_NAME_LEN) {
+				printf("Invalid input, name to long! Try again.\n");
+				free(name);
+				continue;
+			}
+			break;
+		}
+		init_player(&players[0], name, human_get_move);
+		free(name);
+	}
 		{
 			option = select_ai_difficulty();
 			switch (option) {
 			case PLAYER_VS_AI_PERFECT:
-				init_player(&players[1], "Player 2", perfect_ai_get_move);
+				init_player(&players[1], "perfect AI", perfect_ai_get_move);
 				break;
 			case PLAYER_VS_AI_HARD:
-				init_player(&players[1], "Player 2", hard_ai_get_move);
+				init_player(&players[1], "hard AI", hard_ai_get_move);
 				break;
 			case PLAYER_VS_AI_STUPID:
-				init_player(&players[1], "Player 2", stupid_ai_get_move);
+				init_player(&players[1], "easy AI", stupid_ai_get_move);
 				break;
 			}
 		}
