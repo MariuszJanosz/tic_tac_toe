@@ -61,3 +61,8 @@ int solved(Board_t* board) {
 	}
 	return 0; //no winning line
 }
+
+void apply_move(Board_t* board, int move, Cell_state_t side) {
+	assert(1 <= move && move <= 9 && board->board[(move - 1) / 3][(move - 1) % 3] == EMPTY && "Invalid move!");
+	board->board[(move - 1) / 3][(move - 1) % 3] = side;
+}

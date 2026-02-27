@@ -62,11 +62,12 @@ start:
 	init_game(&board, players);
 	
 	int player = 0;
+	Cell_state_t player_to_side[2] = {X_, O_};
 	int rnd = 9;
 	while (rnd) {
 		printf("Turn of %s\n", players[player].name);
 		int move = players[player].get_move(&board);
-		board.board[(move - 1) / 3][(move - 1) % 3] = player == 0 ? X_ : O_;
+		apply_move(&board, move, player_to_side[player]);
 		draw_board(&board);
 		if (solved(&board)) {
 			break;
