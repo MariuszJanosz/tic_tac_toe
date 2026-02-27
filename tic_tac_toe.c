@@ -11,7 +11,7 @@
 #include "input.h"
 
 void init_game(Board_t* board, Player_t* players) {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	init_board(board);
 	Option_t option = start_menu();
 	switch (option) {

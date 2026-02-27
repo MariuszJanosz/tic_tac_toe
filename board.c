@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 
 #include "board.h"
 
@@ -11,6 +12,8 @@ char cell_state_to_char(Cell_state_t state) {
 	case X_:
 		return 'X';
 	}
+	assert(0);
+	return 0;
 }
 
 void draw_board(Board_t* board) {

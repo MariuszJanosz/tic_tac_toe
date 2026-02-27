@@ -40,7 +40,7 @@ char* get_string(const char* msg, const char* invalid_input_msg) {
 			while (getchar() != '\n');
 			continue;
 		}
-		int len = strlen(buffer);
+		int len = (int)strlen(buffer);
 		if (len == 1) {
 			printf("%s", invalid_input_msg);
 			continue;
