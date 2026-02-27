@@ -3,5 +3,6 @@
 
 int get_num(const char* msg, const char* invalid_input_msg);
 char* get_string(const char* msg, const char* invalid_input_msg);
+char* get_player_name();
 
 #endif //INPUT_H

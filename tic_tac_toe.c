@@ -20,58 +20,20 @@ void init_game(Board_t* board, Player_t* players) {
 		break;
 	case TWO_PLAYERS:
 	{
-#define _MSG_(x, y, z) x #y z
-#define MSG(x, y, z) _MSG_(x, y, z)
-		const char* msg = MSG("Enter your name (max ", MAX_NAME_LEN, " characters): ");
-#undef MSG
-#undef _MSG_
-		const char* invalid_input_msg = "Invalid input! Try again.\n";
 		printf("Player 1\n");
-		char* name = NULL;
-		while (1) {
-			name = get_string(msg, invalid_input_msg);
-			if (strlen(name) > MAX_NAME_LEN) {
-				printf("Invalid input, name to long! Try again.\n");
-				free(name);
-				continue;
-			}
-			break;
-		}
+		char* name = get_player_name();
 		init_player(&players[0], name, human_get_move);
 		free(name);
 		printf("Player 2\n");
-		while (1) {
-			name = get_string(msg, invalid_input_msg);
-			if (strlen(name) > MAX_NAME_LEN) {
-				printf("Invalid input, name to long! Try again.\n");
-				free(name);
-				continue;
-			}
-			break;
-		}
+		name = get_player_name();
 		init_player(&players[1], name, human_get_move);
 		free(name);
 		break;
 	}
 	case PLAYER_VS_AI:
 	{
-#define _MSG_(x, y, z) x #y z
-#define MSG(x, y, z) _MSG_(x, y, z)
-		const char* msg = MSG("Enter your name (max ", MAX_NAME_LEN, " characters): ");
-#undef MSG
-#undef _MSG_
-		const char* invalid_input_msg = "Invalid input! Try again.\n";
 		printf("Player 1\n");
-		char* name = NULL;
-		while (1) {
-			name = get_string(msg, invalid_input_msg);
-			if (strlen(name) > MAX_NAME_LEN) {
-				printf("Invalid input, name to long! Try again.\n");
-				free(name);
-				continue;
-			}
-			break;
-		}
+		char* name = get_player_name();;
 		init_player(&players[0], name, human_get_move);
 		free(name);
 	}
