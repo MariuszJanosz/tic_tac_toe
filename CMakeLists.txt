@@ -1,13 +1,24 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.11)
 
 project(TicTacToe)
 
 set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 set(CMAKE_LINK_WARNING_AS_ERROR ON)
 
-if (MSVC)
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-endif()
+include(FetchContent)
+FetchContent_Declare(GLFW
+					GIT_REPOSITORY git@github.com:glfw/glfw.git
+					GIT_TAG 3.4)
+FetchContent_MakeAvailable(GLFW)
+
+if (WIN32)
+	if (MSVC)
+		add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+	endif()
+elseif (UNIX)
+else ()
+	message(FATAL_ERROR "Unsupported OS")
+endif ()
 
 add_executable(TicTacToe)
 
@@ -20,3 +31,5 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									input.c input.h)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
+
+add_subdirectory(tests)
