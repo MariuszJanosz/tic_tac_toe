@@ -8,6 +8,7 @@
 #include "ai_player.h"
 #include "menu.h"
 #include "input.h"
+#include "terminal_draw.h"
 
 void init_game(Board_t* board, Player_t* players) {
 	srand((unsigned int)time(NULL));
@@ -67,7 +68,7 @@ start:
 		printf("Turn of %s\n", players[player].name);
 		int move = players[player].get_move(&board);
 		apply_move(&board, move, player_to_side[player]);
-		draw_board(&board);
+		terminal_draw_board(&board);
 		if (solved(&board)) {
 			break;
 		}

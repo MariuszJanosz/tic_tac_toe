@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.14)
 
 project(TicTacToe)
 
@@ -28,7 +28,9 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									human_player.c human_player.h
 									ai_player.c ai_player.h
 									menu.c menu.h
-									input.c input.h)
+									input.c input.h
+									terminal_draw.c terminal_draw.h
+									gui_draw.c gui_draw.h)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
 
