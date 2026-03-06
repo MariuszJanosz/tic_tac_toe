@@ -22,11 +22,11 @@ void init_game(Board_t* board, Player_t* players) {
 	{
 		printf("Player 1\n");
 		char* name = get_player_name();
-		init_player(&players[0], name, human_get_move);
+		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
 		printf("Player 2\n");
 		name = get_player_name();
-		init_player(&players[1], name, human_get_move);
+		init_player(&players[1], name, terminal_human_get_move);
 		free(name);
 		break;
 	}
@@ -34,7 +34,7 @@ void init_game(Board_t* board, Player_t* players) {
 	{
 		printf("Player 1\n");
 		char* name = get_player_name();;
-		init_player(&players[0], name, human_get_move);
+		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
 	}
 		{

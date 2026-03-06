@@ -3,6 +3,6 @@
 
 #include "board.h"
 
-int human_get_move(Board_t* board);
+int terminal_human_get_move(Board_t* board);
 
 #endif //HUMAN_PLAYER_H

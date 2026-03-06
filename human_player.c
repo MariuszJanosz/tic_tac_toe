@@ -5,7 +5,7 @@
 #include "board.h"
 #include "input.h"
 
-int human_get_move(Board_t* board) {
+int terminal_human_get_move(Board_t* board) {
 	const char *msg = "Enter selected cell 1-9: ";
 	const char *invalid_input_msg = "Invalid move! Try again.\n";
 	while (1) {
