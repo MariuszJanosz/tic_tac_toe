@@ -10,9 +10,11 @@ int get_num(const char* msg, const char* invalid_input_msg) {
 	int num;
 	while (1) {
 		printf("%s", msg);
+		fflush(stdout);
 		int scanned = scanf("%d", &num);
 		if (scanned == 0) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			while (getchar() != '\n');
 			continue;
 		}
@@ -20,6 +22,7 @@ int get_num(const char* msg, const char* invalid_input_msg) {
 		while (getchar() != '\n') ++tail_len;
 		if (tail_len != 0) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		return num;
@@ -31,25 +34,30 @@ char* get_string(const char* msg, const char* invalid_input_msg) {
 	char buffer[1024];
 	while (1) {
 		printf("%s", msg);
+		fflush(stdout);
 		if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			while (getchar() != '\n');
 			continue;
 		}
 		if (strchr(buffer, '\n') == NULL) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			while (getchar() != '\n');
 			continue;
 		}
 		int len = (int)strlen(buffer);
 		if (len == 1) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		buffer[len - 1] = '\0'; //Remove \n
 		char* string = (char*)malloc(len * sizeof(*string));
 		if (!string) {
 			fprintf(stderr, "String allocation failed!\n");
+			fflush(stderr);
 			exit(1);
 		}
 		strcpy(string, buffer);
@@ -70,6 +78,7 @@ char* get_player_name() {
 		name = get_string(msg, invalid_input_msg);
 		if (strlen(name) > MAX_NAME_LEN) {
 			printf("Invalid input, name to long! Try again.\n");
+			fflush(stdout);
 			free(name);
 			continue;
 		}

@@ -18,10 +18,13 @@ char cell_state_to_char(Cell_state_t state) {
 
 void terminal_draw_board(Board_t* board) {
 	printf("#####\n");
+	fflush(stdout);
 	for (int i = 0; i < 3; ++i) {
 		printf("#%c%c%c#\n", cell_state_to_char(board->board[i][0]),
 			cell_state_to_char(board->board[i][1]),
 			cell_state_to_char(board->board[i][2]));
+		fflush(stdout);
 	}
 	printf("#####\n");
+	fflush(stdout);
 }

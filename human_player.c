@@ -13,6 +13,7 @@ int terminal_human_get_move(Board_t* board) {
 		if (move < 1 || move > 9 ||
 			board->board[(move - 1) / 3][(move - 1) % 3] != EMPTY) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		return move;

@@ -14,6 +14,7 @@ Option_t play_again() {
 		int opt = get_num(msg, invalid_input_msg);
 		if (opt < 1 || opt > 2) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		switch (opt) {
@@ -36,6 +37,7 @@ Option_t start_menu() {
 		int opt = get_num(msg, invalid_input_msg);
 		if (opt < 1 || opt > 3) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		switch (opt) {
@@ -60,6 +62,7 @@ Option_t select_ai_difficulty() {
 		int opt = get_num(msg, invalid_input_msg);
 		if (opt < 1 || opt > 3) {
 			printf("%s", invalid_input_msg);
+			fflush(stdout);
 			continue;
 		}
 		switch (opt) {

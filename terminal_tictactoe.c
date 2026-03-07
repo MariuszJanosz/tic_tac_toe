@@ -22,10 +22,12 @@ void terminal_init_game(Board_t* board, Player_t* players) {
 	case TWO_PLAYERS:
 	{
 		printf("Player 1\n");
+		fflush(stdout);
 		char* name = get_player_name();
 		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
 		printf("Player 2\n");
+		fflush(stdout);
 		name = get_player_name();
 		init_player(&players[1], name, terminal_human_get_move);
 		free(name);
@@ -34,6 +36,7 @@ void terminal_init_game(Board_t* board, Player_t* players) {
 	case PLAYER_VS_AI:
 	{
 		printf("Player 1\n");
+		fflush(stdout);
 		char* name = get_player_name();;
 		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
@@ -67,6 +70,7 @@ int terminal_main(int atgc, char** argv) {
 		int rnd = 9;
 		while (rnd) {
 			printf("Turn of %s\n", players[player].name);
+			fflush(stdout);
 			int move = players[player].get_move(&board);
 			apply_move(&board, move, player_to_side[player]);
 			terminal_draw_board(&board);
@@ -78,9 +82,11 @@ int terminal_main(int atgc, char** argv) {
 		}
 		if (rnd) {
 			printf("%s won!\n", players[player].name);
+			fflush(stdout);
 		}
 		else {
 			printf("It's a tie!\n");
+			fflush(stdout);
 		}
 		quit = play_again();
 	} while (quit == PLAY_AGAIN);
