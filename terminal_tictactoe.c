@@ -82,7 +82,7 @@ int terminal_main(int atgc, char** argv) {
 		else {
 			printf("It's a tie!\n");
 		}
-		Option_t option = play_again();
+		quit = play_again();
 	} while (quit == PLAY_AGAIN);
 	return 0;
 }
