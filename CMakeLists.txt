@@ -34,6 +34,16 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									terminal_tictactoe.c terminal_tictactoe.h
 									gui_tictactoe.c gui_tictactoe.h)
 
+target_link_libraries(TicTacToe PRIVATE glfw)
+if (WIN32)
+	target_link_libraries(TicTacToe PRIVATE opengl32)
+elseif (UNIX)
+	target_link_libraries(TicTacToe PRIVATE GL m)
+else ()
+	message(FATAL_ERROR "Unsupported OS")
+endif ()
+target_include_directories(TicTacToe PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
+
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
 
 add_subdirectory(tests)
