@@ -30,7 +30,9 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									menu.c menu.h
 									input.c input.h
 									terminal_draw.c terminal_draw.h
-									gui_draw.c gui_draw.h)
+									gui_draw.c gui_draw.h
+									terminal_tictactoe.c terminal_tictactoe.h
+									gui_tictactoe.c gui_tictactoe.h)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
 
