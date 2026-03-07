@@ -15,6 +15,7 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
         fprintf(stderr, "GLFW initialization failed!");
         exit(1);
     }
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
     *window = glfwCreateWindow(width, height, name, NULL, NULL);
     if (!*window)
     {
