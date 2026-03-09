@@ -20,6 +20,8 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
     }
 	glfwSetMouseButtonCallback(*window, mouse_button_callback);
     glfwMakeContextCurrent(*window);
+
+	glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 }
 
 int gui_main(int atgc, char** argv) {
