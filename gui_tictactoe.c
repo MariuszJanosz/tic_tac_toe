@@ -21,6 +21,10 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
 	glfwSetMouseButtonCallback(*window, mouse_button_callback);
     glfwMakeContextCurrent(*window);
 
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, width, height, 0, -1, 1);
+
 	glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 }
 
