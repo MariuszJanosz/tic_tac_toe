@@ -4,6 +4,22 @@
 #include "GLFW/glfw3.h"
 #include "gui_tictactoe.h"
 #include "input.h"
+#include "board.h"
+#include "players.h"
+
+typedef enum {
+    START_MENU,
+    AI_DIFFICULTY_MENU,
+    INIT_PLAYER_MENU,
+    GAME,
+    GAME_OVER_MENU
+} Phase_t;
+
+typedef struct Game_t {
+    Board_t board;
+    Player_t players[2];
+    Phase_t phase;
+} Game_t;
 
 void glfw_window_init(GLFWwindow** window, int width, int height, const char* name) {
     if (!glfwInit()) {
@@ -31,6 +47,10 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
 int gui_main(int atgc, char** argv) {
     GLFWwindow* window = NULL;
     glfw_window_init(&window, 800, 800, "TicTacToe");
+
+    Game_t game;
+    init_board(&game.board);
+    game.phase = START_MENU;
 
     while (!glfwWindowShouldClose(window))
     {
