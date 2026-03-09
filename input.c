@@ -6,7 +6,7 @@
 #include "input.h"
 #include "players.h"
 
-extern Mouse_t mouse = {0};
+Mouse_t mouse = {0};
 
 int get_num(const char* msg, const char* invalid_input_msg) {
 	int num;
