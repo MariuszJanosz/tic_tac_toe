@@ -35,7 +35,7 @@ int gui_main(int atgc, char** argv) {
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
-        glfwPollEvents();
+        glfwWaitEvents();
     }
 
     glfwTerminate();
