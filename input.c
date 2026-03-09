@@ -6,6 +6,8 @@
 #include "input.h"
 #include "players.h"
 
+extern Mouse_t mouse = {0};
+
 int get_num(const char* msg, const char* invalid_input_msg) {
 	int num;
 	while (1) {
@@ -83,5 +85,16 @@ char* terminal_get_player_name() {
 			continue;
 		}
 		return name;
+	}
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+	if (button != GLFW_MOUSE_BUTTON_LEFT) return;
+	glfwGetCursorPos(window, &mouse.xpos, &mouse.ypos);
+	if (action != GLFW_RELEASE) {
+		mouse.lmb_is_pressed = 1;
+	}
+	else {
+		mouse.lmb_is_pressed = 0;
 	}
 }

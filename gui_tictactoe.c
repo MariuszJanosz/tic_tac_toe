@@ -2,13 +2,8 @@
 #include <stdio.h>
 
 #include "GLFW/glfw3.h"
-#include "board.h"
-#include "players.h"
 #include "gui_tictactoe.h"
-
-void gui_init_game(Board_t* board, Player_t* players) {
-	//TODO
-}
+#include "input.h"
 
 void glfw_window_init(GLFWwindow** window, int width, int height, const char* name) {
     if (!glfwInit()) {
@@ -23,17 +18,18 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
         fprintf(stderr, "GLFW window creation failed!");
         exit(1);
     }
+	glfwSetMouseButtonCallback(*window, mouse_button_callback);
     glfwMakeContextCurrent(*window);
 }
 
 int gui_main(int atgc, char** argv) {
     GLFWwindow* window = NULL;
     glfw_window_init(&window, 800, 800, "TicTacToe");
-    
+
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-        glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
