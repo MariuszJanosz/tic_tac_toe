@@ -11,8 +11,8 @@ typedef enum {
 	QUIT
 } Option_t;
 
-Option_t start_menu();
-Option_t select_ai_difficulty();
-Option_t play_again();
+Option_t terminal_start_menu();
+Option_t terminal_select_ai_difficulty();
+Option_t terminal_play_again();
 
 #endif //MENU_H

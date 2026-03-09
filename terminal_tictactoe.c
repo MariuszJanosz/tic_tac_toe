@@ -14,7 +14,7 @@
 void terminal_init_game(Board_t* board, Player_t* players) {
 	srand((unsigned int)time(NULL));
 	init_board(board);
-	Option_t option = start_menu();
+	Option_t option = terminal_start_menu();
 	switch (option) {
 	case QUIT:
 		exit(0);
@@ -23,12 +23,12 @@ void terminal_init_game(Board_t* board, Player_t* players) {
 	{
 		printf("Player 1\n");
 		fflush(stdout);
-		char* name = get_player_name();
+		char* name = terminal_get_player_name();
 		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
 		printf("Player 2\n");
 		fflush(stdout);
-		name = get_player_name();
+		name = terminal_get_player_name();
 		init_player(&players[1], name, terminal_human_get_move);
 		free(name);
 		break;
@@ -37,12 +37,12 @@ void terminal_init_game(Board_t* board, Player_t* players) {
 	{
 		printf("Player 1\n");
 		fflush(stdout);
-		char* name = get_player_name();;
+		char* name = terminal_get_player_name();;
 		init_player(&players[0], name, terminal_human_get_move);
 		free(name);
 	}
 	{
-		option = select_ai_difficulty();
+		option = terminal_select_ai_difficulty();
 		switch (option) {
 		case PLAYER_VS_AI_PERFECT:
 			init_player(&players[1], "perfect AI", perfect_ai_get_move);
@@ -88,7 +88,7 @@ int terminal_main(int atgc, char** argv) {
 			printf("It's a tie!\n");
 			fflush(stdout);
 		}
-		quit = play_again();
+		quit = terminal_play_again();
 	} while (quit == PLAY_AGAIN);
 	return 0;
 }

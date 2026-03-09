@@ -66,7 +66,7 @@ char* get_string(const char* msg, const char* invalid_input_msg) {
 	assert(0);
 }
 
-char* get_player_name() {
+char* terminal_get_player_name() {
 #define _MSG_(x, y, z) x #y z
 #define MSG(x, y, z) _MSG_(x, y, z)
 	const char* msg = MSG("Enter your name (max ", MAX_NAME_LEN, " characters): ");

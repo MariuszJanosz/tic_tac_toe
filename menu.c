@@ -5,7 +5,7 @@
 #include "menu.h"
 #include "input.h"
 
-Option_t play_again() {
+Option_t terminal_play_again() {
 	const char* msg = "1. Play again\n"
 		"2. Quit\n"
 		"Select option: ";
@@ -27,7 +27,7 @@ Option_t play_again() {
 	assert(0);
 }
 
-Option_t start_menu() {
+Option_t terminal_start_menu() {
 	const char *msg =	"1. Two players\n"
 						"2. Vs AI\n"
 						"3. Quit\n"
@@ -52,7 +52,7 @@ Option_t start_menu() {
 	assert(0);
 }
 
-Option_t select_ai_difficulty() {
+Option_t terminal_select_ai_difficulty() {
 	const char *msg =	"1. Easy\n"
 						"2. Hard\n"
 						"3. Perfect\n"
