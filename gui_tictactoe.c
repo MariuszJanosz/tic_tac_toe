@@ -9,7 +9,9 @@
 
 typedef struct Game_t {
     Board_t board;
+    Cell_state_t side;
     Player_t players[2];
+    int vs_ai;
     Phase_t* phase;
 } Game_t;
 
@@ -37,14 +39,20 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
 	glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 }
 
+void init_game(Game_t* game) {
+    init_board(&game->board);
+    game->side = X_;
+    game->vs_ai = 0;
+    game->phase = &phases[START_MENU];
+}
+
 int gui_main(int atgc, char** argv) {
     GLFWwindow* window = NULL;
     glfw_window_init(&window, 800, 800, "TicTacToe");
 
     init_phases();
     Game_t game;
-    init_board(&game.board);
-    game.phase = START_MENU;
+    init_game(&game);
 
     init_mouse_input_queue();
 
