@@ -34,7 +34,9 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									terminal_tictactoe.c terminal_tictactoe.h
 									gui_tictactoe.c gui_tictactoe.h
 									button.c button.h
-									phases.c phases.h)
+									phases.c phases.h
+									update.c update.h
+									render.c render.h)
 
 target_link_libraries(TicTacToe PRIVATE glfw)
 if (WIN32)
