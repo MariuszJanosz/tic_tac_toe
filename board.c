@@ -43,3 +43,13 @@ void apply_move(Board_t* board, int move, Cell_state_t side) {
 	assert(1 <= move && move <= 9 && board->board[(move - 1) / 3][(move - 1) % 3] == EMPTY && "Invalid move!");
 	board->board[(move - 1) / 3][(move - 1) % 3] = side;
 }
+
+int valid_move(Board_t* board, int move) {
+	return 1 <= move && move <= 9 && board->board[(move - 1) / 3][(move - 1) % 3] == EMPTY;
+}
+
+int full_board(Board_t* board) {
+	return	(board->board[0][0] != EMPTY) && (board->board[0][1] != EMPTY) && (board->board[0][2] != EMPTY) &&
+			(board->board[1][0] != EMPTY) && (board->board[1][1] != EMPTY) && (board->board[1][2] != EMPTY) &&
+			(board->board[2][0] != EMPTY) && (board->board[2][1] != EMPTY) && (board->board[2][2] != EMPTY);
+}

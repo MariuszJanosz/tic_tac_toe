@@ -14,5 +14,7 @@ typedef struct Board_t {
 void init_board(Board_t* board);
 int solved(Board_t* board);
 void apply_move(Board_t* board, int move, Cell_state_t side);
+int valid_move(Board_t* board, int move);
+int full_board(Board_t* board);
 
 #endif //BOARD_H
