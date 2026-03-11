@@ -6,7 +6,8 @@
 #include "input.h"
 #include "players.h"
 
-Mouse_t mouse = {0};
+Mouse_t* mouse_input_queue = NULL;
+int mouse_input_queue_rear = 0;
 
 int get_num(const char* msg, const char* invalid_input_msg) {
 	int num;
@@ -96,6 +97,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 	if (button != GLFW_MOUSE_BUTTON_LEFT) return;
+	Mouse_t mouse;
 	glfwGetCursorPos(window, &mouse.xpos, &mouse.ypos);
 	if (action != GLFW_RELEASE) {
 		mouse.lmb_is_pressed = 1;
@@ -103,4 +105,22 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	else {
 		mouse.lmb_is_pressed = 0;
 	}
+	if (mouse_input_queue_rear >= MOUSE_INPUT_QUEUE_SIZE) {
+		fprintf(stderr, "Mouse input queue overflow!");
+		exit(1);
+	}
+	mouse_input_queue[mouse_input_queue_rear++] = mouse;
+}
+
+void init_mouse_input_queue() {
+	mouse_input_queue = malloc(MOUSE_INPUT_QUEUE_SIZE * sizeof(*mouse_input_queue));
+	if (!mouse_input_queue) {
+		fprintf(stderr, "Mouse input queue allocation falied!");
+		exit(1);
+	}
+	atexit(free_mouse_input_queue);
+}
+
+void free_mouse_input_queue(void) {
+	free(mouse_input_queue);
 }

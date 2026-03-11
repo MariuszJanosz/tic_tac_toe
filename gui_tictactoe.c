@@ -53,6 +53,8 @@ int gui_main(int atgc, char** argv) {
     init_board(&game.board);
     game.phase = START_MENU;
 
+    init_mouse_input_queue();
+
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
