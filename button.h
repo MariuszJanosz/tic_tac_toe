@@ -35,5 +35,6 @@ typedef struct Button_t {
 
 void init_button(Button_t* button, Button_id_t button_id, double xpos, double ypos, double width, double height);
 void draw_button(Button_t* button);
+int mouse_is_over_button(Button_t* button, Mouse_t* mouse);
 
 #endif //BUTTON_H

@@ -1,5 +1,6 @@
 #include "GLFW/glfw3.h"
 #include "button.h"
+#include "input.h"
 
 void init_button(Button_t* button, Button_id_t button_id, double xpos, double ypos, double width, double height) {
 	button->button_id = button_id;
@@ -22,4 +23,12 @@ void draw_button(Button_t* button) {
 	glVertex2d(xpos + w, ypos + h);
 	glVertex2d(xpos, ypos + h);
 	glEnd();
+}
+
+int mouse_is_over_button(Button_t* button, Mouse_t* mouse) {
+	if (	button->xpos <= mouse->xpos && mouse->xpos <= button->xpos + button->width &&
+			button->ypos <= mouse->ypos && mouse->ypos <= button->ypos + button->height) {
+		return 1;
+	}
+	return 0;
 }
