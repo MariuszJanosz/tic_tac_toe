@@ -1,7 +1,8 @@
 #include "GLFW/glfw3.h"
 #include "button.h"
 
-void init_button(Button_t* button, double xpos, double ypos, double width, double height) {
+void init_button(Button_t* button, Button_id_t button_id, double xpos, double ypos, double width, double height) {
+	button->button_id = button_id;
 	button->xpos = xpos;
 	button->ypos = ypos;
 	button->width = width;
