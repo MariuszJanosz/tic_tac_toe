@@ -88,6 +88,12 @@ char* terminal_get_player_name() {
 	}
 }
 
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if (key == GLFW_KEY_Q) {
+		exit(0);
+	}
+}
+
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
 	if (button != GLFW_MOUSE_BUTTON_LEFT) return;
 	glfwGetCursorPos(window, &mouse.xpos, &mouse.ypos);

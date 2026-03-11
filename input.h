@@ -11,6 +11,7 @@ typedef struct Mouse_t {
 
 extern Mouse_t mouse;
 
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 int get_num(const char* msg, const char* invalid_input_msg);

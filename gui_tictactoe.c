@@ -35,6 +35,7 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
         exit(1);
     }
 	glfwSetMouseButtonCallback(*window, mouse_button_callback);
+    glfwSetKeyCallback(*window, key_callback);
     glfwMakeContextCurrent(*window);
 
     glMatrixMode(GL_PROJECTION);
