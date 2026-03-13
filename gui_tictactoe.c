@@ -7,6 +7,7 @@
 #include "phases.h"
 #include "update.h"
 #include "render.h"
+#include "font_atlas.h"
 
 void glfw_window_init(GLFWwindow** window, int width, int height, const char* name) {
     if (!glfwInit()) {
@@ -25,9 +26,20 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
     glfwSetKeyCallback(*window, key_callback);
     glfwMakeContextCurrent(*window);
 
+    glGenTextures(1, &font_atlas_tex);
+    glBindTexture(GL_TEXTURE_2D, font_atlas_tex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, &font_atlas_data->RGBA);
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width, height, 0, -1, 1);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 }

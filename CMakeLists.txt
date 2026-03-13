@@ -36,7 +36,8 @@ target_sources(TicTacToe PRIVATE	tic_tac_toe.c
 									button.c button.h
 									phases.c phases.h
 									update.c update.h
-									render.c render.h)
+									render.c render.h
+									${CMAKE_BINARY_DIR}/font_atlas.c font_atlas.h)
 
 target_link_libraries(TicTacToe PRIVATE glfw)
 if (WIN32)
@@ -46,8 +47,15 @@ elseif (UNIX)
 else ()
 	message(FATAL_ERROR "Unsupported OS")
 endif ()
-target_include_directories(TicTacToe PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include)
+target_include_directories(TicTacToe PRIVATE ${CMAKE_BINARY_DIR}/_deps/glfw-src/include ${CMAKE_SOURCE_DIR})
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
+
+add_custom_target(	Generate_Font_Atlas 
+					python ${CMAKE_SOURCE_DIR}/generate_font_atlas.py ${CMAKE_BINARY_DIR}/font_atlas.c ${CMAKE_SOURCE_DIR}/font_atlas.c.in
+					BYPRODUCTS ${CMAKE_BINARY_DIR}/font_atlas.c
+					SOURCES generate_font_atlas.py font_atlas.c.in)
+
+add_dependencies(TicTacToe Generate_Font_Atlas)
 
 add_subdirectory(tests)
