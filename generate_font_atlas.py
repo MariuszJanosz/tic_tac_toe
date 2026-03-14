@@ -19,8 +19,8 @@ img_path =  os.path.abspath(sys.argv[2])
 
 f = io.open(file_path, 'w')
 img = iio.imread(img_path)
-width = img.shape[0]
-height = img.shape[1]
+width = img.shape[1]
+height = img.shape[0]
 channels = img.shape[2]
 size = width * height * channels
 
