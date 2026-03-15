@@ -2,6 +2,7 @@
 #include "gui_draw.h"
 #include "board.h"
 #include "math.h"
+#include "font_atlas.h"
 
 void gui_draw_board(Board_t* board) {
 	for (int i = 0; i < 3; ++i) {
@@ -38,4 +39,25 @@ void gui_draw_board(Board_t* board) {
 			}
 		}
 	}
+}
+
+void gui_draw_string(const char* str, double xpos, double ypos, unsigned int size) {
+	int i = 0;
+	double width = 12.0 * size;
+	double height = width * 20 / 12;
+	glEnable(GL_TEXTURE_2D);
+	while (str[i]) {
+		glBegin(GL_QUADS);
+		glTexCoord2d((12.0 * str[i]) / font_atlas_data->width, 0.0);
+		glVertex2d(xpos + width * i, ypos);
+		glTexCoord2d((12.0 * str[i] + 12.0) / font_atlas_data->width, 0.0);
+		glVertex2d(xpos + width * i + width, ypos);
+		glTexCoord2d((12.0 * str[i] + 12.0) / font_atlas_data->width, 0.0 + 1.0);
+		glVertex2d(xpos + width * i + width, ypos + height);
+		glTexCoord2d((12.0 * str[i]) / font_atlas_data->width, 0.0 + 1.0);
+		glVertex2d(xpos + width * i, ypos + height);
+		glEnd();
+		++i;
+	}
+	glDisable(GL_TEXTURE_2D);
 }
