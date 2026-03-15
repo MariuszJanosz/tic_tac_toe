@@ -47,6 +47,7 @@ void glfw_window_init(GLFWwindow** window, int width, int height, const char* na
 void init_game(Game_t* game) {
     init_board(&game->board);
     game->side = X_;
+    game->winner = EMPTY;
     game->vs_ai = 0;
     game->phase = &phases[START_MENU];
 }

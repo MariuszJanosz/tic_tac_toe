@@ -144,14 +144,21 @@ void game_update(Game_t* game) {
     }
     if (full_board(&game->board)) {
         game->phase = &phases[GAME_OVER_MENU];
+        game->winner = EMPTY;
         return;
     }
     if (!valid_move(&game->board, move)) {
         return;
     }
     apply_move(&game->board, move, game->side);
-    if (solved(&game->board) || full_board(&game->board)) {
+    if (solved(&game->board)) {
         game->phase = &phases[GAME_OVER_MENU];
+        game->winner = game->side;
+        return;
+    }
+    else if (full_board(&game->board)) {
+        game->phase = &phases[GAME_OVER_MENU];
+        game->winner = EMPTY;
         return;
     }
     game->side = game->side == X_ ? O_ : X_;
@@ -160,6 +167,7 @@ void game_update(Game_t* game) {
         apply_move(&game->board, move, game->side);
         if (solved(&game->board)) {
             game->phase = &phases[GAME_OVER_MENU];
+            game->winner = game->side;
             return;
         }
         game->side = game->side == X_ ? O_ : X_;

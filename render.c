@@ -4,20 +4,29 @@
 #include "button.h"
 #include "phases.h"
 #include "gui_draw.h"
+#include "board.h"
 
 void start_menu_render(Game_t* game) {
+    gui_draw_string("Select game mode:", 160, 20, 1);
     for (int i = 0; i < game->phase->button_count; ++i) {
         draw_button(&game->phase->buttons[i]);
     }
 }
 
 void ai_difficulty_menu_render(Game_t* game) {
+    gui_draw_string("Select AI difficulty:", 160, 20, 1);
     for (int i = 0; i < game->phase->button_count; ++i) {
         draw_button(&game->phase->buttons[i]);
     }
 }
 
 void game_render(Game_t* game) {
+    if (game->side == X_) {
+        gui_draw_string("Xs move!", 350, 120, 1);
+    }
+    else {
+        gui_draw_string("Os move!", 350, 120, 1);
+    }
     for (int i = 0; i < game->phase->button_count; ++i) {
         draw_button(&game->phase->buttons[i]);
     }
@@ -25,6 +34,17 @@ void game_render(Game_t* game) {
 }
 
 void game_over_menu_render(Game_t* game) {
+    switch (game->winner) {
+    case EMPTY:
+        gui_draw_string("It was a tie!", 244, 380, 2);
+        break;
+    case X_:
+        gui_draw_string("X won!", 328, 380, 2);
+        break;
+    case O_:
+        gui_draw_string("O won!", 328, 380, 2);
+        break;
+    }
     for (int i = 0; i < game->phase->button_count; ++i) {
         draw_button(&game->phase->buttons[i]);
     }

@@ -8,6 +8,7 @@
 typedef struct Game_t {
     Board_t board;
     Cell_state_t side;
+    Cell_state_t winner;
     Player_t players[2];
     int vs_ai;
     Phase_t* phase;
