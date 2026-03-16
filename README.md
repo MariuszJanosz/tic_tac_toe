@@ -1,3 +1,18 @@
 ## Tic Tac Toe
 
 Simple Tic Tac Toe implementation.
+
+### To build it requires:
+1. C compiler supporting at least C11
+2. CMake version 3.14 or higher
+3. Python 3.x
+
+### Build: (Tested with Ubuntu24.04 + GCC, Windows11 + MSVC)
+```
+cmake -B build
+#run generated build system file
+```
+
+If you start executable with no arguments it would start in a terminal mode.
+If you pass --gui it will start in a GUI mode.
+
