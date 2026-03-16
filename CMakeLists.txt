@@ -11,6 +11,47 @@ FetchContent_Declare(GLFW
 					GIT_TAG 3.4)
 FetchContent_MakeAvailable(GLFW)
 
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+set(VENV_DIR ${CMAKE_BINARY_DIR}/.venv)
+
+if(NOT EXISTS ${VENV_DIR})
+    execute_process(
+        COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
+        RESULT_VARIABLE VENV_CREATED
+    )
+
+    if(VENV_CREATED)
+        message(FATAL_ERROR "Failed to create python venv")
+    endif()
+endif()
+
+if (WIN32)
+	set(VENV_PYTHON ${VENV_DIR}/Scripts/python.exe)
+elseif (UNIX)
+	set(VENV_PYTHON ${VENV_DIR}/bin/python)
+else ()
+	message(FATAL_ERROR "Unsupported OS")
+endif ()
+
+execute_process(
+    COMMAND ${VENV_PYTHON} -m pip install --upgrade pip
+)
+
+execute_process(COMMAND ${VENV_PYTHON} -c "import imageio.v3"
+				RESULT_VARIABLE IMAGEIO_AVAILABLE)
+
+if (IMAGEIO_AVAILABLE)
+	message(STATUS "ImageIO not found. Installing...")
+
+    execute_process(COMMAND ${VENV_PYTHON} -m pip install ImageIO
+					RESULT_VARIABLE INSTALL_STATUS)
+
+    if(INSTALL_STATUS)
+        message(FATAL_ERROR "Failed to install ImageIO")
+    endif()
+endif ()
+
 if (WIN32)
 	if (MSVC)
 		add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
@@ -54,7 +95,7 @@ target_include_directories(TicTacToe PRIVATE	${CMAKE_BINARY_DIR}/_deps/glfw-src/
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT TicTacToe)
 
 add_custom_target(	Generate_Font_Atlas 
-					python ${CMAKE_SOURCE_DIR}/generate_font_atlas.py ${CMAKE_BINARY_DIR}/font_atlas.c ${CMAKE_SOURCE_DIR}/font_atlas.c.in
+					${VENV_PYTHON} ${CMAKE_SOURCE_DIR}/generate_font_atlas.py ${CMAKE_BINARY_DIR}/font_atlas.c ${CMAKE_SOURCE_DIR}/font_atlas.c.in
 					BYPRODUCTS ${CMAKE_BINARY_DIR}/font_atlas.c ${CMAKE_BINARY_DIR}/font_atlas.h
 					SOURCES generate_font_atlas.py font_atlas.c.in)
 
