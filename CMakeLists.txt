@@ -17,7 +17,7 @@ set(VENV_DIR ${CMAKE_BINARY_DIR}/.venv)
 
 if(NOT EXISTS ${VENV_DIR})
     execute_process(
-        COMMAND ${Python3_EXECUTABLE} -m venv ${VENV_DIR}
+        COMMAND ${Python3_EXECUTABLE} -m venv --upgrade-deps --system-site-packages ${VENV_DIR}
         RESULT_VARIABLE VENV_CREATED
     )
 
@@ -34,9 +34,12 @@ else ()
 	message(FATAL_ERROR "Unsupported OS")
 endif ()
 
-execute_process(
-    COMMAND ${VENV_PYTHON} -m pip install --upgrade pip
-)
+execute_process(COMMAND ${VENV_PYTHON} -m pip install --upgrade pip
+				RESULT_VARIABLE PIP_AVAILABLE)
+
+if (PIP_AVAILABLE)
+	message(FATAL_ERROR "Pip missing")
+endif ()
 
 execute_process(COMMAND ${VENV_PYTHON} -c "import imageio.v3"
 				RESULT_VARIABLE IMAGEIO_AVAILABLE)
