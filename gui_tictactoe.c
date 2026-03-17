@@ -49,6 +49,7 @@ void init_game(Game_t* game) {
     game->side = X_;
     game->winner = EMPTY;
     game->vs_ai = 0;
+    game->ai_side = O_;
     game->phase = &phases[START_MENU];
 }
 

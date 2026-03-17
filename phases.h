@@ -3,10 +3,11 @@
 
 #include "button.h"
 
-#define NUMBER_OF_PHASES 4
+#define NUMBER_OF_PHASES 5
 
 typedef enum {
     START_MENU,
+    AI_SIDE_MENU,
     AI_DIFFICULTY_MENU,
     GAME,
     GAME_OVER_MENU

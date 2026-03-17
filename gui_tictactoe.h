@@ -11,6 +11,7 @@ typedef struct Game_t {
     Cell_state_t winner;
     Player_t players[2];
     int vs_ai;
+    Cell_state_t ai_side;
     Phase_t* phase;
 } Game_t;
 

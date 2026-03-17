@@ -13,6 +13,13 @@ void start_menu_render(Game_t* game) {
     }
 }
 
+void ai_side_menu_render(Game_t* game) {
+    gui_draw_string("Select AI side:", 160, 20, 1);
+    for (int i = 0; i < game->phase->button_count; ++i) {
+        draw_button(&game->phase->buttons[i]);
+    }
+}
+
 void ai_difficulty_menu_render(Game_t* game) {
     gui_draw_string("Select AI difficulty:", 160, 20, 1);
     for (int i = 0; i < game->phase->button_count; ++i) {
@@ -54,6 +61,9 @@ void render(Game_t* game) {
     switch (game->phase->phase_id) {
     case START_MENU:
         start_menu_render(game);
+        break;
+    case AI_SIDE_MENU:
+        ai_side_menu_render(game);
         break;
     case AI_DIFFICULTY_MENU:
         ai_difficulty_menu_render(game);

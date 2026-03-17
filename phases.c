@@ -16,6 +16,17 @@ static Phase_t init_start_menu_phase() {
 	return res;
 }
 
+static Phase_t init_ai_side_menu_phase() {
+	static Button_t buttons[2];
+	Phase_t res;
+	res.phase_id = AI_SIDE_MENU;
+	res.buttons = buttons;
+	res.button_count = 2;
+	init_button(&buttons[0], AI_SIDE_X_BUTTON, 50.0, 50.0, 100.0, 50.0, "X");
+	init_button(&buttons[1], AI_SIDE_O_BUTTON, 50.0, 150.0, 100.0, 50.0, "O");
+	return res;
+}
+
 static Phase_t init_ai_difficulty_menu_phase() {
 	static Button_t buttons[3];
 	Phase_t res;
@@ -59,6 +70,7 @@ static Phase_t init_game_over_menu_phase() {
 
 void init_phases() {
 	phases[START_MENU] = init_start_menu_phase();
+	phases[AI_SIDE_MENU] = init_ai_side_menu_phase();
 	phases[AI_DIFFICULTY_MENU] = init_ai_difficulty_menu_phase();
 	phases[GAME] = init_game_phase();
 	phases[GAME_OVER_MENU] = init_game_over_menu_phase();
