@@ -1,3 +1,9 @@
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <time.h>
+#endif
+
 #include "update.h"
 #include "gui_tictactoe.h"
 #include "input.h"
@@ -53,69 +59,72 @@ void ai_difficulty_menu_update(Game_t* game) {
 }
 
 void game_update(Game_t* game) {
+    //Make sure mouse input queue is emptied
     Button_id_t button_id = get_activated_button(game->phase);
     int move = 0;
-    switch (button_id) {
-    case GAME_CELL_1_BUTTON:
-        move = 1;
-        break;
-    case GAME_CELL_2_BUTTON:
-        move = 2;
-        break;
-    case GAME_CELL_3_BUTTON:
-        move = 3;
-        break;
-    case GAME_CELL_4_BUTTON:
-        move = 4;
-        break;
-    case GAME_CELL_5_BUTTON:
-        move = 5;
-        break;
-    case GAME_CELL_6_BUTTON:
-        move = 6;
-        break;
-    case GAME_CELL_7_BUTTON:
-        move = 7;
-        break;
-    case GAME_CELL_8_BUTTON:
-        move = 8;
-        break;
-    case GAME_CELL_9_BUTTON:
-        move = 9;
-        break;
-    default:
-        break;
+    if (game->vs_ai && game->side == O_) { //AI move
+        move = game->players[1].get_move(&game->board);
+        //Wait some time to make it appear as AI need some time to make a decision
+        unsigned int time = 350;
+#ifdef _WIN32
+        Sleep(time);
+#else
+        const struct timespec duration = { 0, time * 1000000 };
+        nanosleep(&duration, NULL);
+#endif
     }
-    if (full_board(&game->board)) {
-        game->phase = &phases[GAME_OVER_MENU];
-        game->winner = EMPTY;
-        return;
-    }
-    if (!valid_move(&game->board, move)) {
-        return;
+    else { //Human move
+        switch (button_id) {
+        case GAME_CELL_1_BUTTON:
+            move = 1;
+            break;
+        case GAME_CELL_2_BUTTON:
+            move = 2;
+            break;
+        case GAME_CELL_3_BUTTON:
+            move = 3;
+            break;
+        case GAME_CELL_4_BUTTON:
+            move = 4;
+            break;
+        case GAME_CELL_5_BUTTON:
+            move = 5;
+            break;
+        case GAME_CELL_6_BUTTON:
+            move = 6;
+            break;
+        case GAME_CELL_7_BUTTON:
+            move = 7;
+            break;
+        case GAME_CELL_8_BUTTON:
+            move = 8;
+            break;
+        case GAME_CELL_9_BUTTON:
+            move = 9;
+            break;
+        default:
+            break;
+        }
+        //Invalid move nothing happens, try again in next frame
+        if (!valid_move(&game->board, move)) {
+            return;
+        }
     }
     apply_move(&game->board, move, game->side);
+    //Chcek for winner
     if (solved(&game->board)) {
         game->phase = &phases[GAME_OVER_MENU];
         game->winner = game->side;
         return;
     }
+    //If no winner but full board it's a tie
     else if (full_board(&game->board)) {
         game->phase = &phases[GAME_OVER_MENU];
         game->winner = EMPTY;
         return;
     }
+    //Switch side
     game->side = game->side == X_ ? O_ : X_;
-    if (game->vs_ai) {
-        move = game->players[1].get_move(&game->board);
-        apply_move(&game->board, move, game->side);
-        if (solved(&game->board)) {
-            game->phase = &phases[GAME_OVER_MENU];
-            game->winner = game->side;
-            return;
-        }
-        game->side = game->side == X_ ? O_ : X_;
-    }
 }
 
 void game_over_menu_update(Game_t* game) {
