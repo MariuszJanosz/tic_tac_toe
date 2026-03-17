@@ -21,5 +21,6 @@ typedef struct phase_t {
 extern Phase_t* phases;
 
 void init_phases();
+Button_id_t get_activated_button(Phase_t* phase);
 
 #endif //PHASES_H

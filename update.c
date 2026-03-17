@@ -8,28 +8,10 @@
 #include "human_player.h"
 #include "ai_player.h"
 #include "GLFW/glfw3.h"
+#include "phases.h"
 
 void start_menu_update(Game_t* game) {
-    Button_id_t button_id = NONE_BUTTON;
-    for (int i = 0; i < mouse_input_queue_rear; ++i) {
-        if (mouse_input_queue[i].lmb_is_pressed) {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i])) {
-                    game->phase->buttons[j].is_pressed = 1;
-                }
-            }
-        }
-        else {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i]) &&
-                    game->phase->buttons[j].is_pressed) {
-                    button_id = game->phase->buttons[j].button_id;
-                }
-                game->phase->buttons[j].is_pressed = 0;
-            }
-        }
-    }
-    mouse_input_queue_rear = 0;
+    Button_id_t button_id = get_activated_button(game->phase);
     switch (button_id) {
     case START_MENU_HUMAN_VS_AI_BUTTON:
         init_player(&game->players[0], "Player 1", NULL);
@@ -51,26 +33,7 @@ void start_menu_update(Game_t* game) {
 }
 
 void ai_difficulty_menu_update(Game_t* game) {
-    Button_id_t button_id = NONE_BUTTON;
-    for (int i = 0; i < mouse_input_queue_rear; ++i) {
-        if (mouse_input_queue[i].lmb_is_pressed) {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i])) {
-                    game->phase->buttons[j].is_pressed = 1;
-                }
-            }
-        }
-        else {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i]) &&
-                    game->phase->buttons[j].is_pressed) {
-                    button_id = game->phase->buttons[j].button_id;
-                }
-                game->phase->buttons[j].is_pressed = 0;
-            }
-        }
-    }
-    mouse_input_queue_rear = 0;
+    Button_id_t button_id = get_activated_button(game->phase);
     switch (button_id) {
     case AI_DIFFICULTY_MENU_EASY_BUTTON:
         init_player(&game->players[1], "Stupid AI", stupid_ai_get_move);
@@ -90,26 +53,7 @@ void ai_difficulty_menu_update(Game_t* game) {
 }
 
 void game_update(Game_t* game) {
-    Button_id_t button_id = NONE_BUTTON;
-    for (int i = 0; i < mouse_input_queue_rear; ++i) {
-        if (mouse_input_queue[i].lmb_is_pressed) {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i])) {
-                    game->phase->buttons[j].is_pressed = 1;
-                }
-            }
-        }
-        else {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i]) &&
-                    game->phase->buttons[j].is_pressed) {
-                    button_id = game->phase->buttons[j].button_id;
-                }
-                game->phase->buttons[j].is_pressed = 0;
-            }
-        }
-    }
-    mouse_input_queue_rear = 0;
+    Button_id_t button_id = get_activated_button(game->phase);
     int move = 0;
     switch (button_id) {
     case GAME_CELL_1_BUTTON:
@@ -175,26 +119,7 @@ void game_update(Game_t* game) {
 }
 
 void game_over_menu_update(Game_t* game) {
-    Button_id_t button_id = NONE_BUTTON;
-    for (int i = 0; i < mouse_input_queue_rear; ++i) {
-        if (mouse_input_queue[i].lmb_is_pressed) {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i])) {
-                    game->phase->buttons[j].is_pressed = 1;
-                }
-            }
-        }
-        else {
-            for (int j = 0; j < game->phase->button_count; ++j) {
-                if (mouse_is_over_button(&game->phase->buttons[j], &mouse_input_queue[i]) &&
-                    game->phase->buttons[j].is_pressed) {
-                    button_id = game->phase->buttons[j].button_id;
-                }
-                game->phase->buttons[j].is_pressed = 0;
-            }
-        }
-    }
-    mouse_input_queue_rear = 0;
+    Button_id_t button_id = get_activated_button(game->phase);
     switch (button_id) {
     case GAME_OVER_MENU_PLAY_AGAIN_BUTTON:
         init_game(game);

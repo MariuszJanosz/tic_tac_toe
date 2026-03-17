@@ -63,3 +63,27 @@ void init_phases() {
 	phases[GAME] = init_game_phase();
 	phases[GAME_OVER_MENU] = init_game_over_menu_phase();
 }
+
+Button_id_t get_activated_button(Phase_t* phase) {
+	Button_id_t res = NONE_BUTTON;
+	for (int i = 0; i < mouse_input_queue_rear; ++i) {
+		if (mouse_input_queue[i].lmb_is_pressed) {
+			for (int j = 0; j < phase->button_count; ++j) {
+				if (mouse_is_over_button(&phase->buttons[j], &mouse_input_queue[i])) {
+					phase->buttons[j].is_pressed = 1;
+				}
+			}
+		}
+		else {
+			for (int j = 0; j < phase->button_count; ++j) {
+				if (mouse_is_over_button(&phase->buttons[j], &mouse_input_queue[i]) &&
+					phase->buttons[j].is_pressed) {
+					res = phase->buttons[j].button_id;
+				}
+				phase->buttons[j].is_pressed = 0;
+			}
+		}
+	}
+	mouse_input_queue_rear = 0;
+	return res;
+}
