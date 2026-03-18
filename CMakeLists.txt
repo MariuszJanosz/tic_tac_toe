@@ -6,6 +6,7 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 set(CMAKE_LINK_WARNING_AS_ERROR ON)
 
 include(FetchContent)
+set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(GLFW
 					GIT_REPOSITORY git@github.com:glfw/glfw.git
 					GIT_TAG 3.4)
@@ -105,3 +106,6 @@ add_custom_target(	Generate_Font_Atlas
 add_dependencies(TicTacToe Generate_Font_Atlas)
 
 add_subdirectory(tests)
+
+install(TARGETS TicTacToe RUNTIME)
+

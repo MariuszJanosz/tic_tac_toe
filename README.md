@@ -10,7 +10,13 @@ Simple Tic Tac Toe implementation.
 ### Build: (Tested with Ubuntu24.04 + GCC, Windows11 + MSVC)
 ```
 cmake -B build
-#run generated build system file
+cmake --build build [--config <config>]
+```
+
+### Install:
+```
+#If you build to system location, you have to run this command with elevated privilege.
+cmake --install build [--config <config>] [--prefix <prefix>]
 ```
 
 If you start executable with no arguments it would start in a terminal mode.
