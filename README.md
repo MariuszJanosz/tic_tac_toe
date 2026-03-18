@@ -19,6 +19,6 @@ cmake --build build [--config <config>]
 cmake --install build [--config <config>] [--prefix <prefix>]
 ```
 
-If you start executable with no arguments it would start in a terminal mode.
-If you pass --gui it will start in a GUI mode.
+If you start executable with no arguments it would start in GUI mode.
+If you pass --cli it will start in terminal mode.
 

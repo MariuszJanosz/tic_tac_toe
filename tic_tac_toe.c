@@ -9,10 +9,10 @@ typedef enum {
 } Mode_t;
 
 int main(int argc, char** argv) {
-	Mode_t mode = TERMINAL;
+	Mode_t mode = GUI;
 	for (int i = 1; i < argc; ++i) {
-		if (0 == strcmp(argv[i], "--gui")) {
-			mode = GUI;
+		if (0 == strcmp(argv[i], "--cli")) {
+			mode = TERMINAL;
 		}
 	}
 
