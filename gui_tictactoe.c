@@ -71,6 +71,7 @@ void init_game(Game_t* game) {
     game->ai_side = O_;
     game->phase = &phases[START_MENU];
     game->dt = 0;
+    game->is_over = 0;
 }
 
 int gui_main(int atgc, char** argv) {

@@ -78,6 +78,19 @@ void ai_difficulty_menu_update(Game_t* game) {
 
 void game_update(Game_t* game) {
 #define AI_PAUSE_TIME_MS 350
+    //If game is over switch to GAME_OVER_MENU phase on next lmb press
+    if (game->is_over) {
+        if (mouse_input_queue_rear) {
+            for (int i = 0; i < mouse_input_queue_rear; ++i) {
+                if (mouse_input_queue[i].lmb_is_pressed) {
+                    game->phase = &phases[GAME_OVER_MENU];
+                    mouse_input_queue_rear;
+                    return;
+                }
+            }
+        }
+        return;
+    }
     //Make sure mouse input queue is emptied
     Button_id_t button_id = get_activated_button(game->phase);
     int move = 0;
@@ -139,13 +152,13 @@ void game_update(Game_t* game) {
     game->phase->animations[move - 1].time_elapsed = 0;
     //Chcek for winner
     if (solved(&game->board)) {
-        game->phase = &phases[GAME_OVER_MENU];
+        game->is_over = 1;
         game->winner = game->side;
         return;
     }
     //If no winner but full board it's a tie
     else if (full_board(&game->board)) {
-        game->phase = &phases[GAME_OVER_MENU];
+        game->is_over = 1;
         game->winner = EMPTY;
         return;
     }

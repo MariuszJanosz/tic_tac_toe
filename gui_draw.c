@@ -77,6 +77,74 @@ void gui_draw_board(Game_t* game) {
 			}
 		}
 	}
+	if (game->is_over) {
+		int winning_lines[2];
+		int winnig_lines_count = 0;
+		detect_winning_lines(&game->board, winning_lines, &winnig_lines_count);
+		for (int i = 0; i < winnig_lines_count; ++i) {
+			GLdouble xmid_start;
+			GLdouble ymid_start;
+			GLdouble xmid_end;
+			GLdouble ymid_end;
+			switch (winning_lines[i]) {
+			case FIRST_ROW:
+				xmid_start = 240.0 + 0 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 2 * 160.0;
+				ymid_end = 240.0 + 0 * 160.0;
+				break;
+			case SECOND_ROW:
+				xmid_start = 240.0 + 0 * 160.0;
+				ymid_start = 240.0 + 1 * 160.0;
+				xmid_end = 240.0 + 2 * 160.0;
+				ymid_end = 240.0 + 1 * 160.0;
+				break;
+			case THITD_ROW:
+				xmid_start = 240.0 + 0 * 160.0;
+				ymid_start = 240.0 + 2 * 160.0;
+				xmid_end = 240.0 + 2 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			case FIRST_COLUMN:
+				xmid_start = 240.0 + 0 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 0 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			case SECOND_COLUMN:
+				xmid_start = 240.0 + 1 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 1 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			case THIRD_COLUMN:
+				xmid_start = 240.0 + 2 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 2 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			case MAIN_DIAGONAL:
+				xmid_start = 240.0 + 0 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 2 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			case COUNTERDIAGONAL:
+				xmid_start = 240.0 + 2 * 160.0;
+				ymid_start = 240.0 + 0 * 160.0;
+				xmid_end = 240.0 + 0 * 160.0;
+				ymid_end = 240.0 + 2 * 160.0;
+				break;
+			default:
+				break;
+			}
+			glColor3ub(0, 0, 0);
+			glBegin(GL_LINES);
+			glVertex2d(xmid_start, ymid_start);
+			glVertex2d(xmid_end, ymid_end);
+			glEnd();
+		}
+	}
 }
 
 void gui_draw_string(const char* str, double xpos, double ypos, unsigned int size) {

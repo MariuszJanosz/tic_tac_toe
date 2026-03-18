@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "render.h"
 #include "gui_tictactoe.h"
 #include "GLFW/glfw3.h"
@@ -28,27 +30,35 @@ void ai_difficulty_menu_render(Game_t* game) {
 }
 
 void game_render(Game_t* game) {
-    if (game->side == X_) {
-        gui_draw_string("Xs move!", 350, 120, 1);
+    if (!game->is_over) {
+        if (game->side == X_) {
+            gui_draw_string("Xs move!", (double)(800 - strlen("Xs move!") * 12) / 2, 120, 1);
+        }
+        else {
+            gui_draw_string("Os move!", (double)(800 - strlen("Os move!") * 12) / 2, 120, 1);
+        }
     }
     else {
-        gui_draw_string("Os move!", 350, 120, 1);
+        gui_draw_string("GAME OVER! Press LMB to continue.",
+                        (double)(800 - strlen("GAME OVER! Press LMB to continue.") * 12) / 2, 120, 1);
     }
     gui_draw_board(game);
+    if (game->is_over) {
+        switch (game->winner) {
+        case EMPTY:
+            gui_draw_string("It is a tie!", (double)(800 - strlen("It is a tie!") * 12 * 2) / 2, 380, 2);
+            break;
+        case X_:
+            gui_draw_string("X wins!", (double)(800 - strlen("X wins!") * 12 * 2) / 2, 380, 2);
+            break;
+        case O_:
+            gui_draw_string("O wins!", (double)(800 - strlen("X wins!") * 12 * 2) / 2, 380, 2);
+            break;
+        }
+    }
 }
 
 void game_over_menu_render(Game_t* game) {
-    switch (game->winner) {
-    case EMPTY:
-        gui_draw_string("It was a tie!", 244, 380, 2);
-        break;
-    case X_:
-        gui_draw_string("X won!", 328, 380, 2);
-        break;
-    case O_:
-        gui_draw_string("O won!", 328, 380, 2);
-        break;
-    }
     for (int i = 0; i < game->phase->button_count; ++i) {
         draw_button(&game->phase->buttons[i]);
     }

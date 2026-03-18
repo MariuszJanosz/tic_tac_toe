@@ -14,6 +14,7 @@ typedef struct Game_t {
     Cell_state_t ai_side;
     Phase_t* phase;
     unsigned long long dt;
+    int is_over;
 } Game_t;
 
 int gui_main(int atgc, char** argv);
