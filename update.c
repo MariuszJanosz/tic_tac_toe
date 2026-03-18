@@ -77,6 +77,7 @@ void ai_difficulty_menu_update(Game_t* game) {
 }
 
 void game_update(Game_t* game) {
+#define AI_PAUSE_TIME_MS 350
     //Make sure mouse input queue is emptied
     Button_id_t button_id = get_activated_button(game->phase);
     int move = 0;
@@ -84,7 +85,7 @@ void game_update(Game_t* game) {
         int player_num = game->side == X_ ? 0 : 1;
         move = game->players[player_num].get_move(&game->board);
         //Wait some time to make it appear as AI need some time to make a decision
-        unsigned int time = 350;
+        unsigned int time = AI_PAUSE_TIME_MS;
 #ifdef _WIN32
         Sleep(time);
 #else
@@ -130,6 +131,12 @@ void game_update(Game_t* game) {
         }
     }
     apply_move(&game->board, move, game->side);
+    game->phase->animations[move - 1].is_animating = 1;
+    game->phase->animations[move - 1].time = 1000;
+    if (game->side == game->ai_side) {
+        game->phase->animations[move - 1].time += AI_PAUSE_TIME_MS;
+    }
+    game->phase->animations[move - 1].time_elapsed = 0;
     //Chcek for winner
     if (solved(&game->board)) {
         game->phase = &phases[GAME_OVER_MENU];
@@ -144,6 +151,7 @@ void game_update(Game_t* game) {
     }
     //Switch side
     game->side = game->side == X_ ? O_ : X_;
+#undef AI_PAUSE_TIME_MS
 }
 
 void game_over_menu_update(Game_t* game) {

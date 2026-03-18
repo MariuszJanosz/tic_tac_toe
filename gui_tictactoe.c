@@ -1,5 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <time.h>
+#endif
 
 #include "GLFW/glfw3.h"
 #include "gui_tictactoe.h"
@@ -8,6 +13,20 @@
 #include "update.h"
 #include "render.h"
 #include "font_atlas.h"
+
+unsigned long long get_time_ms() {
+    unsigned long long res = 0;
+#ifdef _WIN32
+    res = GetTickCount64();
+#else
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+
+    res = (unsigned long long)(ts.tv_sec) * 1000 +
+        (unsigned long long)(ts.tv_nsec) / 1000000;
+#endif
+    return res;
+}
 
 void glfw_window_init(GLFWwindow** window, int width, int height, const char* name) {
     if (!glfwInit()) {
@@ -51,6 +70,7 @@ void init_game(Game_t* game) {
     game->vs_ai = 0;
     game->ai_side = O_;
     game->phase = &phases[START_MENU];
+    game->dt = 0;
 }
 
 int gui_main(int atgc, char** argv) {
@@ -63,6 +83,7 @@ int gui_main(int atgc, char** argv) {
 
     init_mouse_input_queue();
 
+    unsigned long long prev_time = get_time_ms();
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
@@ -74,6 +95,9 @@ int gui_main(int atgc, char** argv) {
 
         /* Poll for and process events */
         glfwPollEvents();
+        unsigned long long curr_time = get_time_ms();
+        game.dt = curr_time - prev_time;
+        prev_time = curr_time;
         update(&game);
     }
 

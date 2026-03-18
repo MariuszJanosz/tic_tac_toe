@@ -13,10 +13,18 @@ typedef enum {
     GAME_OVER_MENU
 } Phase_id_t;
 
+typedef struct Animation_t {
+    int is_animating;
+    unsigned long long time;
+    unsigned long long time_elapsed;
+} Animation_t;
+
 typedef struct phase_t {
     Phase_id_t phase_id;
     Button_t* buttons;
     int button_count;
+    Animation_t* animations;
+    int animatin_count;
 } Phase_t;
 
 extern Phase_t* phases;
