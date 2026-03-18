@@ -4,14 +4,22 @@
 #include "math.h"
 #include "font_atlas.h"
 
-void gui_draw_board(Board_t* board) {
+void gui_draw_board(Game_t* game) {
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			GLdouble xmid = 240.0 + j * 160.0;
 			GLdouble ymid = 240.0 + i * 160.0;
-			GLubyte r = 0, g = 0, b = 0;
-			glColor3ub(r, g, b);
-			if (board->board[i][j] == X_) {
+			GLdouble cell_w = 160.0, cell_h = 160.0;
+			glColor3ub(0, 0, 0);
+			//Draw cell boundary
+			glBegin(GL_LINE_LOOP);
+			glVertex2d(xmid - cell_w / 2, ymid - cell_h / 2);
+			glVertex2d(xmid - cell_w / 2, ymid + cell_h / 2);
+			glVertex2d(xmid + cell_w / 2, ymid + cell_h / 2);
+			glVertex2d(xmid + cell_w / 2, ymid - cell_h / 2);
+			glEnd();
+			//If cell is occupied draw appropriate letter
+			if (game->board.board[i][j] == X_) {
 				GLdouble arm_len = 40.0;
 				glBegin(GL_LINE_LOOP);
 				glVertex2d(xmid, ymid);
@@ -25,7 +33,7 @@ void gui_draw_board(Board_t* board) {
 				glVertex2d(xmid, ymid);
 				glEnd();
 			}
-			else if (board->board[i][j] == O_) {
+			else if (game->board.board[i][j] == O_) {
 				GLdouble R = 40.0;
 				glBegin(GL_LINE_LOOP);
 #define CIRCEL_STEPS 32

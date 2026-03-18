@@ -34,10 +34,7 @@ void game_render(Game_t* game) {
     else {
         gui_draw_string("Os move!", 350, 120, 1);
     }
-    for (int i = 0; i < game->phase->button_count; ++i) {
-        draw_button(&game->phase->buttons[i]);
-    }
-    gui_draw_board(&game->board);
+    gui_draw_board(game);
 }
 
 void game_over_menu_render(Game_t* game) {
