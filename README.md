@@ -22,3 +22,18 @@ cmake --install build [--config <config>] [--prefix <prefix>]
 If you start executable with no arguments it would start in GUI mode.
 If you pass --cli it will start in terminal mode.
 
+### Control:
+1. GUI mode:
+    * Click buttons with the LMB.
+    * Press "q" to quit at any time.
+2. Terminal mode:
+    * Follow instructions in menus.
+    * Numbers map to board cells in the following way:
+    ```
+    #####
+    #123#
+    #456#
+    #789#
+    #####
+    ```
+
