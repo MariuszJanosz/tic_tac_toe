@@ -5,6 +5,8 @@
 #include "font_atlas.h"
 #include "phases.h"
 
+#define PI 3.141592
+
 static double ABS(double x) {
 	if (x >= 0.0) return x;
 	return -x;
@@ -20,26 +22,34 @@ static void draw_cell_boundary(GLdouble xmid, GLdouble ymid, GLdouble cell_w, GL
 }
 
 static void draw_X(GLdouble xmid, GLdouble ymid, GLdouble arm_len_sqrt2) {
-	glBegin(GL_LINE_LOOP);
+	double half_thickness = 2.0 * sqrt(2.0);
+	glBegin(GL_TRIANGLE_FAN);
 	glVertex2d(xmid, ymid);
-	glVertex2d(xmid - arm_len_sqrt2, ymid + arm_len_sqrt2);
-	glVertex2d(xmid, ymid);
-	glVertex2d(xmid + arm_len_sqrt2, ymid + arm_len_sqrt2);
-	glVertex2d(xmid, ymid);
-	glVertex2d(xmid + arm_len_sqrt2, ymid - arm_len_sqrt2);
-	glVertex2d(xmid, ymid);
-	glVertex2d(xmid - arm_len_sqrt2, ymid - arm_len_sqrt2);
-	glVertex2d(xmid, ymid);
+	glVertex2d(xmid - half_thickness, ymid);
+	glVertex2d(xmid - arm_len_sqrt2 - half_thickness, ymid - arm_len_sqrt2);
+	glVertex2d(xmid - arm_len_sqrt2, ymid - arm_len_sqrt2 - half_thickness);
+	glVertex2d(xmid, ymid - half_thickness);
+	glVertex2d(xmid + arm_len_sqrt2, ymid - arm_len_sqrt2 - half_thickness);
+	glVertex2d(xmid + arm_len_sqrt2 + half_thickness, ymid - arm_len_sqrt2);
+	glVertex2d(xmid + half_thickness, ymid);
+	glVertex2d(xmid + arm_len_sqrt2 + half_thickness, ymid + arm_len_sqrt2);
+	glVertex2d(xmid + arm_len_sqrt2, ymid + arm_len_sqrt2 + half_thickness);
+	glVertex2d(xmid, ymid + half_thickness);
+	glVertex2d(xmid - arm_len_sqrt2, ymid + arm_len_sqrt2 + half_thickness);
+	glVertex2d(xmid - arm_len_sqrt2 - half_thickness, ymid + arm_len_sqrt2);
+	glVertex2d(xmid - half_thickness, ymid);
 	glEnd();
 }
 
 static void draw_O(GLdouble xmid, GLdouble ymid, GLdouble R) {
-	glBegin(GL_LINE_LOOP);
+	double half_thickness = 2.0;
+	glBegin(GL_TRIANGLE_STRIP);
 #define CIRCEL_STEPS 32
-	for (int i = 0; i < CIRCEL_STEPS; ++i) {
-		GLdouble x = xmid + R * cos(2 * 3.141592 * i / CIRCEL_STEPS);
-		GLdouble y = ymid + R * sin(2 * 3.141592 * i / CIRCEL_STEPS);
-		glVertex2d(x, y);
+	for (int i = 0; i <= CIRCEL_STEPS; ++i) {
+		double unit_vec_x = cos(2 * PI * i / CIRCEL_STEPS);
+		double unit_vec_y = sin(2 * PI * i / CIRCEL_STEPS);
+		glVertex2d(xmid + (R + half_thickness) * unit_vec_x, ymid + (R + half_thickness) * unit_vec_y);
+		glVertex2d(xmid + (R - half_thickness) * unit_vec_x, ymid + (R - half_thickness) * unit_vec_y);
 	}
 #undef CIRCLE_STEPS
 	glEnd();
@@ -64,7 +74,7 @@ static void animate_color_transition(	Animation_t* animation, unsigned long long
 }
 
 static double ABS_cos_3_2_pi(double param) {
-	return ABS(cos(3.14 * 1.5 * param));
+	return ABS(cos(PI * 1.5 * param));
 }
 
 void gui_draw_board(Game_t* game) {
@@ -161,10 +171,23 @@ void gui_draw_board(Game_t* game) {
 				break;
 			}
 			glColor3ub(0, 0, 0);
-			glBegin(GL_LINES);
-			glVertex2d(xmid_start, ymid_start);
-			glVertex2d(xmid_end, ymid_end);
-			glEnd();
+			double half_thickness = 2.0;
+			if (winning_lines[i] == MAIN_DIAGONAL) {
+				glBegin(GL_QUADS);
+				glVertex2d(xmid_start + half_thickness, ymid_start - half_thickness);
+				glVertex2d(xmid_end + half_thickness, ymid_end - half_thickness);
+				glVertex2d(xmid_end - half_thickness, ymid_end + half_thickness);
+				glVertex2d(xmid_start - half_thickness, ymid_start + half_thickness);
+				glEnd();
+			}
+			else {
+				glBegin(GL_QUADS);
+				glVertex2d(xmid_start + half_thickness, ymid_start + half_thickness);
+				glVertex2d(xmid_end + half_thickness, ymid_end + half_thickness);
+				glVertex2d(xmid_end - half_thickness, ymid_end - half_thickness);
+				glVertex2d(xmid_start - half_thickness, ymid_start - half_thickness);
+				glEnd();
+			}
 		}
 	}
 }
