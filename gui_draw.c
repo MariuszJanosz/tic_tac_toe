@@ -19,16 +19,16 @@ static void draw_cell_boundary(GLdouble xmid, GLdouble ymid, GLdouble cell_w, GL
 	glEnd();
 }
 
-static void draw_X(GLdouble xmid, GLdouble ymid, GLdouble arm_len) {
+static void draw_X(GLdouble xmid, GLdouble ymid, GLdouble arm_len_sqrt2) {
 	glBegin(GL_LINE_LOOP);
 	glVertex2d(xmid, ymid);
-	glVertex2d(xmid - arm_len, ymid + arm_len);
+	glVertex2d(xmid - arm_len_sqrt2, ymid + arm_len_sqrt2);
 	glVertex2d(xmid, ymid);
-	glVertex2d(xmid + arm_len, ymid + arm_len);
+	glVertex2d(xmid + arm_len_sqrt2, ymid + arm_len_sqrt2);
 	glVertex2d(xmid, ymid);
-	glVertex2d(xmid + arm_len, ymid - arm_len);
+	glVertex2d(xmid + arm_len_sqrt2, ymid - arm_len_sqrt2);
 	glVertex2d(xmid, ymid);
-	glVertex2d(xmid - arm_len, ymid - arm_len);
+	glVertex2d(xmid - arm_len_sqrt2, ymid - arm_len_sqrt2);
 	glVertex2d(xmid, ymid);
 	glEnd();
 }
@@ -83,8 +83,8 @@ void gui_draw_board(Game_t* game) {
 						0, 0, 0,
 						0, 255, 0);
 				}
-				GLdouble arm_len = 40.0;
-				draw_X(xmid, ymid, arm_len);
+				GLdouble arm_len_sqrt2 = 40.0;
+				draw_X(xmid, ymid, arm_len_sqrt2);
 				glColor3ub(0, 0, 0);
 			}
 			else if (game->board.board[i][j] == O_) {
