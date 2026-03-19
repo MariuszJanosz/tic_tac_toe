@@ -77,6 +77,88 @@ static double ABS_cos_3_2_pi(double param) {
 	return ABS(cos(PI * 1.5 * param));
 }
 
+static void draw_winning_lines(Game_t* game) {
+	int winning_lines[2];
+	int winnig_lines_count = 0;
+	detect_winning_lines(&game->board, winning_lines, &winnig_lines_count);
+	for (int i = 0; i < winnig_lines_count; ++i) {
+		GLdouble xmid_start = 0.0;
+		GLdouble ymid_start = 0.0;
+		GLdouble xmid_end = 0.0;
+		GLdouble ymid_end = 0.0;
+		switch (winning_lines[i]) {
+		case FIRST_ROW:
+			xmid_start = 240.0 + 0 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 2 * 160.0;
+			ymid_end = 240.0 + 0 * 160.0;
+			break;
+		case SECOND_ROW:
+			xmid_start = 240.0 + 0 * 160.0;
+			ymid_start = 240.0 + 1 * 160.0;
+			xmid_end = 240.0 + 2 * 160.0;
+			ymid_end = 240.0 + 1 * 160.0;
+			break;
+		case THITD_ROW:
+			xmid_start = 240.0 + 0 * 160.0;
+			ymid_start = 240.0 + 2 * 160.0;
+			xmid_end = 240.0 + 2 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		case FIRST_COLUMN:
+			xmid_start = 240.0 + 0 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 0 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		case SECOND_COLUMN:
+			xmid_start = 240.0 + 1 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 1 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		case THIRD_COLUMN:
+			xmid_start = 240.0 + 2 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 2 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		case MAIN_DIAGONAL:
+			xmid_start = 240.0 + 0 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 2 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		case COUNTERDIAGONAL:
+			xmid_start = 240.0 + 2 * 160.0;
+			ymid_start = 240.0 + 0 * 160.0;
+			xmid_end = 240.0 + 0 * 160.0;
+			ymid_end = 240.0 + 2 * 160.0;
+			break;
+		default:
+			break;
+		}
+		glColor3ub(0, 0, 0);
+		double half_thickness = 2.0;
+		if (winning_lines[i] == MAIN_DIAGONAL) {
+			glBegin(GL_QUADS);
+			glVertex2d(xmid_start + half_thickness, ymid_start - half_thickness);
+			glVertex2d(xmid_end + half_thickness, ymid_end - half_thickness);
+			glVertex2d(xmid_end - half_thickness, ymid_end + half_thickness);
+			glVertex2d(xmid_start - half_thickness, ymid_start + half_thickness);
+			glEnd();
+		}
+		else {
+			glBegin(GL_QUADS);
+			glVertex2d(xmid_start + half_thickness, ymid_start + half_thickness);
+			glVertex2d(xmid_end + half_thickness, ymid_end + half_thickness);
+			glVertex2d(xmid_end - half_thickness, ymid_end - half_thickness);
+			glVertex2d(xmid_start - half_thickness, ymid_start - half_thickness);
+			glEnd();
+		}
+	}
+}
+
 void gui_draw_board(Game_t* game) {
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
@@ -110,85 +192,7 @@ void gui_draw_board(Game_t* game) {
 		}
 	}
 	if (game->is_over) {
-		int winning_lines[2];
-		int winnig_lines_count = 0;
-		detect_winning_lines(&game->board, winning_lines, &winnig_lines_count);
-		for (int i = 0; i < winnig_lines_count; ++i) {
-			GLdouble xmid_start = 0.0;
-			GLdouble ymid_start = 0.0;
-			GLdouble xmid_end = 0.0;
-			GLdouble ymid_end = 0.0;
-			switch (winning_lines[i]) {
-			case FIRST_ROW:
-				xmid_start = 240.0 + 0 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 2 * 160.0;
-				ymid_end = 240.0 + 0 * 160.0;
-				break;
-			case SECOND_ROW:
-				xmid_start = 240.0 + 0 * 160.0;
-				ymid_start = 240.0 + 1 * 160.0;
-				xmid_end = 240.0 + 2 * 160.0;
-				ymid_end = 240.0 + 1 * 160.0;
-				break;
-			case THITD_ROW:
-				xmid_start = 240.0 + 0 * 160.0;
-				ymid_start = 240.0 + 2 * 160.0;
-				xmid_end = 240.0 + 2 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			case FIRST_COLUMN:
-				xmid_start = 240.0 + 0 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 0 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			case SECOND_COLUMN:
-				xmid_start = 240.0 + 1 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 1 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			case THIRD_COLUMN:
-				xmid_start = 240.0 + 2 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 2 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			case MAIN_DIAGONAL:
-				xmid_start = 240.0 + 0 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 2 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			case COUNTERDIAGONAL:
-				xmid_start = 240.0 + 2 * 160.0;
-				ymid_start = 240.0 + 0 * 160.0;
-				xmid_end = 240.0 + 0 * 160.0;
-				ymid_end = 240.0 + 2 * 160.0;
-				break;
-			default:
-				break;
-			}
-			glColor3ub(0, 0, 0);
-			double half_thickness = 2.0;
-			if (winning_lines[i] == MAIN_DIAGONAL) {
-				glBegin(GL_QUADS);
-				glVertex2d(xmid_start + half_thickness, ymid_start - half_thickness);
-				glVertex2d(xmid_end + half_thickness, ymid_end - half_thickness);
-				glVertex2d(xmid_end - half_thickness, ymid_end + half_thickness);
-				glVertex2d(xmid_start - half_thickness, ymid_start + half_thickness);
-				glEnd();
-			}
-			else {
-				glBegin(GL_QUADS);
-				glVertex2d(xmid_start + half_thickness, ymid_start + half_thickness);
-				glVertex2d(xmid_end + half_thickness, ymid_end + half_thickness);
-				glVertex2d(xmid_end - half_thickness, ymid_end - half_thickness);
-				glVertex2d(xmid_start - half_thickness, ymid_start - half_thickness);
-				glEnd();
-			}
-		}
+		draw_winning_lines(game);
 	}
 }
 
