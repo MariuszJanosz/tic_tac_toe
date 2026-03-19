@@ -5,9 +5,66 @@
 #include "font_atlas.h"
 #include "phases.h"
 
-double ABS(double x) {
+static double ABS(double x) {
 	if (x >= 0.0) return x;
 	return -x;
+}
+
+static void draw_cell_boundary(GLdouble xmid, GLdouble ymid, GLdouble cell_w, GLdouble cell_h) {
+	glBegin(GL_LINE_LOOP);
+	glVertex2d(xmid - cell_w / 2, ymid - cell_h / 2);
+	glVertex2d(xmid - cell_w / 2, ymid + cell_h / 2);
+	glVertex2d(xmid + cell_w / 2, ymid + cell_h / 2);
+	glVertex2d(xmid + cell_w / 2, ymid - cell_h / 2);
+	glEnd();
+}
+
+static void draw_X(GLdouble xmid, GLdouble ymid, GLdouble arm_len) {
+	glBegin(GL_LINE_LOOP);
+	glVertex2d(xmid, ymid);
+	glVertex2d(xmid - arm_len, ymid + arm_len);
+	glVertex2d(xmid, ymid);
+	glVertex2d(xmid + arm_len, ymid + arm_len);
+	glVertex2d(xmid, ymid);
+	glVertex2d(xmid + arm_len, ymid - arm_len);
+	glVertex2d(xmid, ymid);
+	glVertex2d(xmid - arm_len, ymid - arm_len);
+	glVertex2d(xmid, ymid);
+	glEnd();
+}
+
+static void draw_O(GLdouble xmid, GLdouble ymid, GLdouble R) {
+	glBegin(GL_LINE_LOOP);
+#define CIRCEL_STEPS 32
+	for (int i = 0; i < CIRCEL_STEPS; ++i) {
+		GLdouble x = xmid + R * cos(2 * 3.141592 * i / CIRCEL_STEPS);
+		GLdouble y = ymid + R * sin(2 * 3.141592 * i / CIRCEL_STEPS);
+		glVertex2d(x, y);
+	}
+#undef CIRCLE_STEPS
+	glEnd();
+}
+
+static void animate_color_transition(	Animation_t* animation, unsigned long long dt, double (*transition)(double),
+										GLubyte r_start, GLubyte g_start, GLubyte b_start,
+										GLubyte r_end, GLubyte g_end, GLubyte b_end) {
+	animation->time_elapsed += dt;
+	if (animation->time_elapsed >= animation->time) {
+		animation->is_animating = 0;
+	}
+	double param = (double)animation->time_elapsed / animation->time;
+	if (param > 1.0) {
+		param = 1.0;
+	}
+	double t = transition(param);
+	GLubyte r = (GLubyte)(255 * (1.0 - t) * r_start + t * r_end);
+	GLubyte g = (GLubyte)(255 * (1.0 - t) * g_start + t * g_end);
+	GLubyte b = (GLubyte)(255 * (1.0 - t) * b_start + t * b_end);
+	glColor3ub(r, g, b);
+}
+
+static double ABS_cos_3_2_pi(double param) {
+	return ABS(cos(3.14 * 1.5 * param));
 }
 
 void gui_draw_board(Game_t* game) {
@@ -18,61 +75,26 @@ void gui_draw_board(Game_t* game) {
 			GLdouble cell_w = 160.0, cell_h = 160.0;
 			glColor3ub(0, 0, 0);
 			//Draw cell boundary
-			glBegin(GL_LINE_LOOP);
-			glVertex2d(xmid - cell_w / 2, ymid - cell_h / 2);
-			glVertex2d(xmid - cell_w / 2, ymid + cell_h / 2);
-			glVertex2d(xmid + cell_w / 2, ymid + cell_h / 2);
-			glVertex2d(xmid + cell_w / 2, ymid - cell_h / 2);
-			glEnd();
+			draw_cell_boundary(xmid, ymid, cell_w, cell_h);
 			//If cell is occupied draw appropriate letter
 			if (game->board.board[i][j] == X_) {
 				if (game->phase->animations[3 * i + j].is_animating) {
-					game->phase->animations[3 * i + j].time_elapsed += game->dt;
-					if (game->phase->animations[3 * i + j].time_elapsed >=
-						game->phase->animations[3 * i + j].time) {
-						game->phase->animations[3 * i + j].is_animating = 0;
-					}
-					GLubyte c = (GLubyte)(255 * ABS(cos(3.14 * 1.5 *
-								game->phase->animations[3 * i + j].time_elapsed /
-								game->phase->animations[3 * i + j].time)));
-					glColor3ub(0, c, 0);
+					animate_color_transition(&game->phase->animations[3 * i + j], game->dt, ABS_cos_3_2_pi,
+						0, 0, 0,
+						0, 255, 0);
 				}
 				GLdouble arm_len = 40.0;
-				glBegin(GL_LINE_LOOP);
-				glVertex2d(xmid, ymid);
-				glVertex2d(xmid - arm_len, ymid + arm_len);
-				glVertex2d(xmid, ymid);
-				glVertex2d(xmid + arm_len, ymid + arm_len);
-				glVertex2d(xmid, ymid);
-				glVertex2d(xmid + arm_len, ymid - arm_len);
-				glVertex2d(xmid, ymid);
-				glVertex2d(xmid - arm_len, ymid - arm_len);
-				glVertex2d(xmid, ymid);
-				glEnd();
+				draw_X(xmid, ymid, arm_len);
 				glColor3ub(0, 0, 0);
 			}
 			else if (game->board.board[i][j] == O_) {
 				if (game->phase->animations[3 * i + j].is_animating) {
-					game->phase->animations[3 * i + j].time_elapsed += game->dt;
-					if (game->phase->animations[3 * i + j].time_elapsed >=
-						game->phase->animations[3 * i + j].time) {
-						game->phase->animations[3 * i + j].is_animating = 0;
-					}
-					GLubyte c = (GLubyte)(255 * ABS(cos(3.14 * 1.5 *
-						game->phase->animations[3 * i + j].time_elapsed /
-						game->phase->animations[3 * i + j].time)));
-					glColor3ub(0, 0, c);
+					animate_color_transition(&game->phase->animations[3 * i + j], game->dt, ABS_cos_3_2_pi,
+						0, 0, 0,
+						0, 0, 255);
 				}
 				GLdouble R = 40.0;
-				glBegin(GL_LINE_LOOP);
-#define CIRCEL_STEPS 32
-				for (int i = 0; i < CIRCEL_STEPS; ++i) {
-					GLdouble x = xmid + R * cos(2 * 3.141592 * i / CIRCEL_STEPS);
-					GLdouble y = ymid + R * sin(2 * 3.141592 * i / CIRCEL_STEPS);
-					glVertex2d(x, y);
-				}
-#undef CIRCLE_STEPS
-				glEnd();
+				draw_O(xmid, ymid, R);
 				glColor3ub(0, 0, 0);
 			}
 		}
@@ -82,10 +104,10 @@ void gui_draw_board(Game_t* game) {
 		int winnig_lines_count = 0;
 		detect_winning_lines(&game->board, winning_lines, &winnig_lines_count);
 		for (int i = 0; i < winnig_lines_count; ++i) {
-			GLdouble xmid_start;
-			GLdouble ymid_start;
-			GLdouble xmid_end;
-			GLdouble ymid_end;
+			GLdouble xmid_start = 0.0;
+			GLdouble ymid_start = 0.0;
+			GLdouble xmid_end = 0.0;
+			GLdouble ymid_end = 0.0;
 			switch (winning_lines[i]) {
 			case FIRST_ROW:
 				xmid_start = 240.0 + 0 * 160.0;
